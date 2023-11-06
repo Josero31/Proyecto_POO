@@ -11,7 +11,7 @@ public class CalculoKW {
             facturaIVA = Kwatts * 1.75;
         }
 
-        facturaIVA = facturaIVA * 1.12;
+        facturaIVA = facturaIVA * 1.50;
         facturaIVA = facturaIVA * 1.10;
 
         return facturaIVA;
