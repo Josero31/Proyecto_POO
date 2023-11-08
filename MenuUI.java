@@ -1,88 +1,97 @@
-import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.text.DecimalFormat; 
+import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
 
 public class MenuUI {
-    private JFrame frame;
-    private JButton button1, button2, button3, button4, button5;
-    private JTextField textField;
-    private JTextArea textArea;
-    private DecimalFormat df = new DecimalFormat("#.##");
+    private static final DecimalFormat df = new DecimalFormat("0.00");
 
-    public MenuUI() {
-        frame = new JFrame("Menu");
-        button1 = new JButton("Calcular tarifa con pago mensual");
-        button2 = new JButton("Calcular tarifa con KiloWatts");
-        button3 = new JButton("Mostrar fuentes de información");
-        button4 = new JButton("Calcular por electrodoméstico");
-        button5 = new JButton("Salir");
-        textField = new JTextField();
-        textArea = new JTextArea();
+    public static void main(String[] args) {
+        try (Scanner scan = new Scanner(System.in)) {
+            CalculoFS calculoFS = new CalculoFS();
+            CalculoKW calculoKW = new CalculoKW();
+            CalculoPS calculoPS = new CalculoPS();
+            ValorFuturo valorFuturo = new ValorFuturo();
+            List<Electrodomestico> electrodomesticos = new ArrayList<>();
 
-        button1.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                double pagoM = Double.parseDouble(textField.getText());
+            System.out.println("Bienvenido!\n");
+            System.out.println("Opciones:");
+            System.out.println("1. Calcular tarifa con pago mensual");
+            System.out.println("2. Calcular tarifa con KiloWatts");
+            System.out.println("3. Mostrar fuentes de información");
+            System.out.println("4. Calcular por electrodoméstico");
+            System.out.println("5. Salir");
+
+            String opcion = scan.nextLine();
+
+            if (opcion.equals("1")) {
+                System.out.println("Ingrese cuánto paga al mes por su factura de electricidad:");
+                double pagoM = scan.nextDouble();
                 double kwatts = calculoFS.Calcular(pagoM);
-                textArea.append("Su consumo mensual de energía es de: " + df.format(kwatts) + " Kwatts\n");
+                System.out.println("Su consumo mensual de energía es de: " + df.format(kwatts) + " Kwatts");
                 double precioPanel = calculoPS.Calcular(kwatts);
                 double tarifaRestante = calculoPS.getFacturaRestante();
 
-                textArea.append("El panel solar que más le conviene es de capacidad de: " + df.format(calculoPS.getCapacidad()) + " Kwatts\n");
-                textArea.append("El precio del panel solar que más le conviene según su consumo de energía es de: Q" + df.format(precioPanel) + "\n");
-                textArea.append("Más un costo de instalación de Q4500.00\n");
-                textArea.append("El excedente del consumo mensual de energía se lo tendrá que pagar a Eegsa, y sería un total de Q" + df.format(tarifaRestante) + "\n");
+                System.out.println("El panel solar que más le conviene es de capacidad de: " + df.format(calculoPS.getCapacidad()) + " Kwatts");
+                System.out.println("El precio del panel solar que más le conviene según su consumo de energía es de: Q" + df.format(precioPanel));
+                System.out.println("Más un costo de instalación de Q4500.00");
+                System.out.println("El excedente del consumo mensual de energía se lo tendrá que pagar a Eegsa, y sería un total de Q" + df.format(tarifaRestante));
 
                 if (valorFuturo.ValorPresenteNeto(precioPanel, pagoM, tarifaRestante)) {
-                    textArea.append("Le conviene comprar el panel solar, la compra se compensará en 8 años\n");
+                    System.out.println("Le conviene comprar el panel solar, la compra se compensará en 8 años");
                 } else {
-                    textArea.append("No le conviene comprar el panel solar\n");
+                    System.out.println("No le conviene comprar el panel solar");
+                }
+            } else if (opcion.equals("2")) {
+                System.out.println("Ingrese cuántos KiloWatts consume al mes:");
+                double kwatts = scan.nextDouble();
+                double tarifa = calculoKW.Calcular(kwatts);
+
+                System.out.println("Su tarifa actual es de: Q" + df.format(tarifa));
+                double precioPanel = calculoPS.Calcular(kwatts);
+                double tarifaRestante = calculoPS.getFacturaRestante();
+
+                System.out.println("El panel solar que más le conviene es de capacidad de: " + df.format(calculoPS.getCapacidad()) + " Kwatts");
+                System.out.println("El precio del panel solar que más le conviene según su consumo de energía es de: Q" + df.format(precioPanel));
+                System.out.println("Más un costo de instalación de Q4500.00");
+                System.out.println("El excedente del consumo mensual de energía se lo tendrá que pagar a Eegsa, y sería un total de Q" + df.format(tarifaRestante));
+
+                if (valorFuturo.ValorPresenteNeto(precioPanel, tarifa, tarifaRestante)) {
+                    System.out.println("Le conviene comprar el panel solar, la compra se compensará en 8 años");
+                } else {
+                    System.out.println("No le conviene comprar el panel solar");
+                }
+            } else if (opcion.equals("3")) {
+                System.out.println("Información de tarifas y precios obtenidos de:");
+                System.out.println("Tarifas: Eegsa");
+                System.out.println("Precios: Aisa (Solar)");
+            } else if (opcion.equals("4")) {
+                while (true) {
+                    System.out.println("Ingrese el electrodoméstico que desea agregar:");
+                    String nombre = scan.next();
+                    System.out.println("Ingrese el consumo energético del electrodoméstico:");
+                    double consumoEnergetico = scan.nextDouble();
+                    System.out.println("Ingrese la cantidad de electrodomésticos:");
+                    int cantidad = scan.nextInt();
+
+                    Electrodomestico electrodomestico = new Electrodomestico(nombre, consumoEnergetico, cantidad);
+                    electrodomesticos.add(electrodomestico);
+                    System.out.println("Electrodoméstico agregado!");
+
+                    System.out.println("Lista de electrodomésticos agregados:");
+                    for (Electrodomestico elec : electrodomesticos) {
+                        System.out.println(elec);
+                    }
+
+                    System.out.println("¿Desea agregar otro electrodoméstico? (s/n)");
+                    String respuesta = scan.next();
+                    if (respuesta.equals("n")) {
+                        double consumoTotal = electrodomesticos.stream().mapToDouble(Electrodomestico::calcularConsumoMensual).sum();
+                        System.out.println("Consumo total: " + df.format(consumoTotal) + " kilowatts");
+                        break;
+                    }
                 }
             }
-        });
-
-        button2.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // Aquí va el código para calcular la tarifa con KiloWatts
-            }
-        });
-
-        button3.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // Aquí va el código para mostrar las fuentes de información
-            }
-        });
-
-        button4.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // Aquí va el código para calcular por electrodoméstico
-            }
-        });
-
-        button5.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                System.exit(0);
-            }
-        });
-
-        frame.add(button1);
-        frame.add(button2);
-        frame.add(button3);
-        frame.add(button4);
-        frame.add(button5);
-
-        frame.setLayout(new java.awt.GridLayout(5, 1));
-        frame.setSize(400, 400);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setVisible(true);
-    }
-
-    public static void main(String[] args) {
-        new MenuUI();
+        }
     }
 }
