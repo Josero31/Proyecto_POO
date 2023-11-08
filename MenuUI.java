@@ -1,10 +1,14 @@
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.DecimalFormat; 
 
 public class MenuUI {
     private JFrame frame;
     private JButton button1, button2, button3, button4, button5;
+    private JTextField textField;
+    private JTextArea textArea;
+    private DecimalFormat df = new DecimalFormat("#.##");
 
     public MenuUI() {
         frame = new JFrame("Menu");
@@ -13,27 +17,27 @@ public class MenuUI {
         button3 = new JButton("Mostrar fuentes de información");
         button4 = new JButton("Calcular por electrodoméstico");
         button5 = new JButton("Salir");
+        textField = new JTextField();
+        textArea = new JTextArea();
 
         button1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Aquí va el código para calcular la tarifa con pago mensual
-                System.out.println("Ingrese cuánto paga al mes por su factura de electricidad:");
-                double pagoM = scan.nextDouble();
+                double pagoM = Double.parseDouble(textField.getText());
                 double kwatts = calculoFS.Calcular(pagoM);
-                System.out.println("Su consumo mensual de energía es de: " + df.format(kwatts) + " Kwatts");
+                textArea.append("Su consumo mensual de energía es de: " + df.format(kwatts) + " Kwatts\n");
                 double precioPanel = calculoPS.Calcular(kwatts);
                 double tarifaRestante = calculoPS.getFacturaRestante();
 
-                System.out.println("El panel solar que más le conviene es de capacidad de: " + df.format(calculoPS.getCapacidad()) + " Kwatts");
-                System.out.println("El precio del panel solar que más le conviene según su consumo de energía es de: Q" + df.format(precioPanel));
-                System.out.println("Más un costo de instalación de Q4500.00");
-                System.out.println("El excedente del consumo mensual de energía se lo tendrá que pagar a Eegsa, y sería un total de Q" + df.format(tarifaRestante));
+                textArea.append("El panel solar que más le conviene es de capacidad de: " + df.format(calculoPS.getCapacidad()) + " Kwatts\n");
+                textArea.append("El precio del panel solar que más le conviene según su consumo de energía es de: Q" + df.format(precioPanel) + "\n");
+                textArea.append("Más un costo de instalación de Q4500.00\n");
+                textArea.append("El excedente del consumo mensual de energía se lo tendrá que pagar a Eegsa, y sería un total de Q" + df.format(tarifaRestante) + "\n");
 
                 if (valorFuturo.ValorPresenteNeto(precioPanel, pagoM, tarifaRestante)) {
-                    System.out.println("Le conviene comprar el panel solar, la compra se compensará en 8 años");
+                    textArea.append("Le conviene comprar el panel solar, la compra se compensará en 8 años\n");
                 } else {
-                    System.out.println("No le conviene comprar el panel solar");
+                    textArea.append("No le conviene comprar el panel solar\n");
                 }
             }
         });
