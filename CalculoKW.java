@@ -1,27 +1,47 @@
 public class CalculoKW {
     private double Kwatts;
-    private double facturaIVA;
+    private double kilowatts;
+    
 
-    public double Calcular(double KW) {
-        Kwatts = KW;
-
-        if (Kwatts <= 300) {
-            facturaIVA = Kwatts * 1.5;
+    public double CalcularEGGSA(double KW) {
+        kilowatts = KW;
+        if (KW <= 100) {
+            Kwatts = KW * 1.25;
         } else {
-            facturaIVA = Kwatts * 1.75;
+            Kwatts = KW * 1.33;
         }
-
-        facturaIVA = facturaIVA * 1.50;
-        facturaIVA = facturaIVA * 1.10;
-
-        return facturaIVA;
+        return Kwatts;
     }
+    
+
+    
+
+    public double CalcularDEOCSA(double KW) {
+        kilowatts = KW;
+        if (KW <= 100) {
+            Kwatts = KW * 1.82;
+        } else {
+            Kwatts = KW * 1.94;
+        }
+        return Kwatts;
+    }
+
+   
+
+    public double CalcularDEORSA(double KW) {
+       kilowatts = KW;
+        if (KW <= 100) {
+            Kwatts = KW * 1.72;
+        } else {
+            Kwatts = KW * 1.81;
+        }
+        return Kwatts;
+    }
+
 
     public double getKwatts() {
         return Kwatts;
     }
 
-    public double getFacturaIva() {
-        return facturaIVA;
-    }
+    
 }

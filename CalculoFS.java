@@ -1,28 +1,47 @@
 public class CalculoFS {
     private double Kwatts;
-    private double facturaIVA;
+    private double factura;
+    
 
-    public double Calcular(double PL) {
-        facturaIVA = PL;
-        double AP = facturaIVA * 0.10;
-        facturaIVA = facturaIVA - AP;
-        double IVA = facturaIVA * 0.12;
-        double valorFactura = facturaIVA - IVA;
-
-        if (valorFactura <= 523.25) {
-            Kwatts = valorFactura / 1.5;
+    public double CalcularEGGSA(double PL) {
+        factura = PL;
+        if (PL <= 125) {
+            Kwatts = PL / 1.2500;
         } else {
-            Kwatts = valorFactura / 1.75;
+            Kwatts = PL / 1.3366;
         }
-
         return Kwatts;
     }
+    
+
+    
+
+    public double CalcularDEOCSA(double PL) {
+        factura = PL;
+        if (PL <= 182) {
+            Kwatts = PL / 1.8231;
+        } else {
+            Kwatts = PL / 1.9496;
+        }
+        return Kwatts;
+    }
+
+   
+
+    public double CalcularDEORSA(double PL) {
+        factura = PL;
+        if (PL <= 172) {
+            Kwatts = PL / 1.7289;
+        } else {
+            Kwatts = PL / 1.8178;
+        }
+        return Kwatts;
+    }
+
 
     public double getKwatts() {
         return Kwatts;
     }
 
-    public double getFacturaIva() {
-        return facturaIVA;
-    }
+    
 }
