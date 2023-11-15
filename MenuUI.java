@@ -14,16 +14,45 @@ public class MenuUI {
             ValorFuturo valorFuturo = new ValorFuturo();
             List<Electrodomestico> electrodomesticos = new ArrayList<>();
 
-            System.out.println("Bienvenido!\n");
-            System.out.println("Opciones:");
-            System.out.println("1. Calcular tarifa con pago mensual");
-            System.out.println("2. Calcular tarifa con KiloWatts");
-            System.out.println("3. Mostrar fuentes de información");
-            System.out.println("4. Calcular por electrodoméstico");
-            System.out.println("5. Salir");
+        System.out.println("Bienvenido\n");
+        System.out.println("Opciones");
+        System.out.println("1. Iniciar Sesión");
+        System.out.println("2. Salir");
 
-            String opcion = scan.nextLine();
+        String opcion = scan.nextLine();
 
+            if (opcion.equals("1")){
+                boolean isLoggedIn = false;
+                GestionUsuarios gestionUsuarios = new GestionUsuarios();
+
+                    while(!isLoggedIn){
+                        System.out.println("Ingrese su nombre de usuario");
+                        String username = scan.nextLine();
+                        System.out.println("Ingrese su contraseña");
+                        String password = scan.nextLine();
+
+                        if (gestionUsuarios.verificarCredenciales(username, password)){
+                            System.out.println("Incio de sesión exitoso\n");
+                            isLoggedIn = true;
+
+                            System.out.println("Bienvenido!\n");
+                            System.out.println("Opciones:");
+                            System.out.println("1. Calcular tarifa con pago mensual");
+                            System.out.println("2. Calcular tarifa con KiloWatts");
+                            System.out.println("3. Mostrar fuentes de información");
+                            System.out.println("4. Calcular por electrodoméstico");
+                            System.out.println("5. Salir");
+
+                            opcion = scan.nextLine();
+                        }else{
+                            System.out.println("Credenciales incorrectas. Intente nuevamente");
+                        }
+
+                    }
+            }
+
+
+           
             if (opcion.equals("1")) {
                 System.out.println("Seleccione su proveedor de luz\n");
                 System.out.println("1. EGGSA");
@@ -44,7 +73,7 @@ public class MenuUI {
                         System.out.println("El panel solar que más le conviene es de capacidad de: " + df.format(calculoPS.getCapacidad()) + " Kwatts");
                         System.out.println("El precio del panel solar que más le conviene según su consumo de energía es de: Q" + df.format(precioPanel));
                         System.out.println("Más un costo de instalación de Q4500.00");
-                        System.out.println("El excedente del consumo mensual de energía se lo tendrá que pagar a Eegsa, y sería un total de Q" + df.format(tarifaRestante));
+                        System.out.println("El excedente del consumo mensual de energía se lo tendrá que pagar a su compañía de electricidad acutal, y sería un total de Q" + df.format(tarifaRestante));
             
                         if (valorFuturo.ValorPresenteNeto(precioPanel, pagoM, tarifaRestante)) {
                             System.out.println("Le conviene comprar el panel solar, la compra se compensará en 8 años");
@@ -63,7 +92,7 @@ public class MenuUI {
                         System.out.println("El panel solar que más le conviene es de capacidad de: " + df.format(calculoPS.getCapacidad()) + " Kwatts");
                         System.out.println("El precio del panel solar que más le conviene según su consumo de energía es de: Q" + df.format(precioPanel));
                         System.out.println("Más un costo de instalación de Q4500.00");
-                        System.out.println("El excedente del consumo mensual de energía se lo tendrá que pagar a Eegsa, y sería un total de Q" + df.format(tarifaRestante));
+                        System.out.println("El excedente del consumo mensual de energía se lo tendrá que pagar a su compañía de electricidad actual, y sería un total de Q" + df.format(tarifaRestante));
             
                         if (valorFuturo.ValorPresenteNeto(precioPanel, pagoM, tarifaRestante)) {
                             System.out.println("Le conviene comprar el panel solar, la compra se compensará en 8 años");
@@ -85,7 +114,7 @@ public class MenuUI {
                         System.out.println("El panel solar que más le conviene es de capacidad de: " + df.format(calculoPS.getCapacidad()) + " Kwatts");
                         System.out.println("El precio del panel solar que más le conviene según su consumo de energía es de: Q" + df.format(precioPanel));
                         System.out.println("Más un costo de instalación de Q4500.00");
-                        System.out.println("El excedente del consumo mensual de energía se lo tendrá que pagar a Eegsa, y sería un total de Q" + df.format(tarifaRestante));
+                        System.out.println("El excedente del consumo mensual de energía se lo tendrá que pagar a su compañía de electricidad actual, y sería un total de Q" + df.format(tarifaRestante));
             
                         if (valorFuturo.ValorPresenteNeto(precioPanel, pagoM, tarifaRestante)) {
                             System.out.println("Le conviene comprar el panel solar, la compra se compensará en 8 años");
@@ -119,7 +148,7 @@ public class MenuUI {
                 System.out.println("El panel solar que más le conviene es de capacidad de: " + df.format(calculoPS.getCapacidad()) + " Kwatts");
                 System.out.println("El precio del panel solar que más le conviene según su consumo de energía es de: Q" + df.format(precioPanel));
                 System.out.println("Más un costo de instalación de Q4500.00");
-                System.out.println("El excedente del consumo mensual de energía se lo tendrá que pagar a Eegsa, y sería un total de Q" + df.format(tarifaRestante));
+                System.out.println("El excedente del consumo mensual de energía se lo tendrá que pagar a su compañia de electricidad actual, y sería un total de Q" + df.format(tarifaRestante));
 
                 if (valorFuturo.ValorPresenteNeto(precioPanel, tarifa, tarifaRestante)) {
                     System.out.println("Le conviene comprar el panel solar, la compra se compensará en 8 años");
@@ -139,7 +168,7 @@ public class MenuUI {
                 System.out.println("El panel solar que más le conviene es de capacidad de: " + df.format(calculoPS.getCapacidad()) + " Kwatts");
                 System.out.println("El precio del panel solar que más le conviene según su consumo de energía es de: Q" + df.format(precioPanel));
                 System.out.println("Más un costo de instalación de Q4500.00");
-                System.out.println("El excedente del consumo mensual de energía se lo tendrá que pagar a Eegsa, y sería un total de Q" + df.format(tarifaRestante));
+                System.out.println("El excedente del consumo mensual de energía se lo tendrá que pagar a su compañía de electricidad actual, y sería un total de Q" + df.format(tarifaRestante));
 
                 if (valorFuturo.ValorPresenteNeto(precioPanel, tarifa, tarifaRestante)) {
                     System.out.println("Le conviene comprar el panel solar, la compra se compensará en 8 años");
@@ -163,7 +192,7 @@ public class MenuUI {
                 System.out.println("El panel solar que más le conviene es de capacidad de: " + df.format(calculoPS.getCapacidad()) + " Kwatts");
                 System.out.println("El precio del panel solar que más le conviene según su consumo de energía es de: Q" + df.format(precioPanel));
                 System.out.println("Más un costo de instalación de Q4500.00");
-                System.out.println("El excedente del consumo mensual de energía se lo tendrá que pagar a Eegsa, y sería un total de Q" + df.format(tarifaRestante));
+                System.out.println("El excedente del consumo mensual de energía se lo tendrá que pagar a su compañía de electricidad actual, y sería un total de Q" + df.format(tarifaRestante));
 
                 if (valorFuturo.ValorPresenteNeto(precioPanel, tarifa, tarifaRestante)) {
                     System.out.println("Le conviene comprar el panel solar, la compra se compensará en 8 años");
